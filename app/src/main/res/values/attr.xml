@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--slidingmenu-->
+    <attr name="rightPadding" format="dimension"></attr>
+    <declare-styleable name="SlidingMenu">
+        <attr name="rightPadding"></attr>
+    </declare-styleable>
+
+    <!--gif-->
+    <declare-styleable name="GifViews">
+        <attr name="src" format="reference" />
+    </declare-styleable>
+
+    <!--roundimage-->
+    <declare-styleable name="RoundImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+    <!--precentLayout-->
+    <declare-styleable name="percent_layout">
+        <attr name="percent_width" format="float"/>
+        <attr name="percent_height" format="float"/>
+    </declare-styleable>
+
+    <!--recyclerview-->
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="leftViewId" format="reference" />
+        <attr name="rightViewId" format="reference" />
+        <attr name="contentViewId" format="reference" />
+    </declare-styleable>
+    <!--
+            Reference引用类型
+            <attr name="drawable" format="reference"/>
+            Color色值类型
+            <attr name="cacheColorHint" format="color"/>
+            Dimension测量类型
+            <attr name="layout_width" format="dimension"/>
+            Fraction百分比类型
+            <attr name="fromX" format="fraction"/>
+            String字符串类型
+            <attr name="text" format="string"/>
+            Boolean布尔类型
+            <attr name="clickable" format="boolean"/>
+            Integer整型类型
+            <attr name="lines" format="integer"/>
+            Float浮点类型
+            <attr name="textScaleX" format="float"/>
+            Enum枚举类型
+            <attr name="orientation">
+                <enum name="horizontal" value="0"/>
+                <enum name="vertical" value="1"/>
+            </attr>
+            Flag类型
+            <attr name="gravity">
+                <flag name="top" value="0x30"/>
+                <flag name="left" value="0x03"/>
+            </attr>
+
+            -->
+</resources>
