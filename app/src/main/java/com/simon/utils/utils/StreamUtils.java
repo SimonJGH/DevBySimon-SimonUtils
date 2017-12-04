@@ -232,31 +232,19 @@ public class StreamUtils {
      * @param destFilePath
      * @return
      */
-    public static boolean copyFile(String filePath, String destFilePath) {
-        BufferedReader bReader = null;
-        BufferedWriter bWriter = null;
+     private static void copyFileUsingFileChannels(File source, File dest) throws IOException {
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
         try {
-            bReader = new BufferedReader(new FileReader(filePath));
-            bWriter = new BufferedWriter(new FileWriter(destFilePath, true));
-
-            String line = "";
-            while ((line = bReader.readLine()) != null) {
-                bWriter.write(line);
-                bWriter.flush();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            inputChannel = new FileInputStream(source).getChannel();
+            outputChannel = new FileOutputStream(dest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
         } finally {
-            try {
-                bReader.close();
-                bWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            inputChannel.close();
+            outputChannel.close();
         }
-        return false;
     }
-
+	
     /**
      * whether file exists
      *

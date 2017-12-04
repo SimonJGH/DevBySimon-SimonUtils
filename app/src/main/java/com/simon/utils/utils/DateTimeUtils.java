@@ -35,6 +35,17 @@ public class DateTimeUtils {
         return string;
     }
 
+	
+    /**
+     * 将时间戳转换成日期
+     * @param currentTimeMillis
+     * @return
+     */
+    public static String convertMsecToDate(long currentTimeMillis) {
+        String string = sdf.format(currentTimeMillis);
+        return string;
+    }
+
     /**
      * 将日期转换成时间戳
      *

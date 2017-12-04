@@ -1,6 +1,7 @@
 package com.simon.utils.utils.singtonutils;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -31,7 +32,29 @@ public class DialogUtils {
     public static class SafeMode {
         private static final DialogUtils mDialog = new DialogUtils();
     }
-
+    /**
+     * 创建简单版的Dialog
+     *
+     * @param activity
+     * @param msg
+     */
+    public void createDialogSimple(Activity activity, String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setCancelable(false);
+        builder.setTitle(msg).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialog.dismiss();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialog.dismiss();
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
+    }
     /**
      * 创建Dialog
      *
@@ -41,7 +64,7 @@ public class DialogUtils {
      * @param scaleX   x轴缩放比例
      * @param scaleY   y轴缩放比例
      */
-    private void createDialog(Activity activity, View inflate, int gravity, Double scaleX, Double scaleY) {
+    private void createDialogCustom(Activity activity, View inflate, int gravity, Double scaleX, Double scaleY) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);

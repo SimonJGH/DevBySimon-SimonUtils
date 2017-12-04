@@ -71,16 +71,6 @@ public class LeftMenuFragment extends BaseFragment implements OnItemClickListene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void onItemClick(int position) {
         mActivity.slidingMenuToggle();
         Intent intent = new Intent();

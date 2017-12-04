@@ -23,37 +23,37 @@ public class LogUtils {
      * whether show the debug logs,if you are debugging please change the state
      * IS_SHOW_LOG = true.
      */
-    private boolean IS_SHOW_LOG = true;
-    private String logITag = "Simon";
+    public boolean IS_SHOW_LOG = true;
+    public String logITag = "Simon";
 
-    private void d(String logTag, String logText) {
+    public void d(String logTag, String logText) {
         if (IS_SHOW_LOG) {
             android.util.Log.d(logTag, logText);
         }
     }
 
-    private void e(String logTag, String logText) {
+    public void e(String logTag, String logText) {
         if (IS_SHOW_LOG) {
             android.util.Log.e(logTag, logText);
         }
 
     }
 
-    private void w(String logTag, String logText) {
+    public void w(String logTag, String logText) {
         if (IS_SHOW_LOG) {
             android.util.Log.w(logTag, logText);
         }
 
     }
 
-    private void v(String logTag, String logText) {
+    public void v(String logTag, String logText) {
         if (IS_SHOW_LOG) {
             android.util.Log.v(logTag, logText);
         }
 
     }
 
-    private void i(String logText) {
+    public void i(String logText) {
         if (IS_SHOW_LOG) {
             android.util.Log.i(logITag, logText);
         }
@@ -65,7 +65,7 @@ public class LogUtils {
      * @param a          必须是一个 4x4 matrix 矩阵
      * @return the debug string
      */
-    private String floatMatrixToString(String matrixName, float[] a) {
+    public String floatMatrixToString(String matrixName, float[] a) {
         String s = "";
         s += "Matrix: " + matrixName + "\n";
         s += "\t " + a[0] + "," + a[1] + "," + a[2] + "," + a[3] + " \n";

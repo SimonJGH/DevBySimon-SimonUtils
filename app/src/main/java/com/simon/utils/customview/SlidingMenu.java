@@ -59,8 +59,7 @@ import com.simon.utils.R;
  * mSliding_menu.toggle();
  * }
  * <p>
- * ②：如果说我们的Right主容器中有ViewPager那么需要使用自定义的 SwipeViewPager
- * ③：slidingMenu有两种模式 1、modeTranslate()  2、modeScale()
+ * ②：slidingMenu有两种模式 1、modeTranslate()  2、modeScale()
  */
 
 @SuppressWarnings("all")
@@ -80,7 +79,7 @@ public class SlidingMenu extends ViewGroup {
     private int mLastYIntercept;
     private float scale;
     private boolean isOpen;
-
+    private int touchDistance = 80;//边缘控制
 
     public SlidingMenu(Context context) {
         this(context, null, 0);
@@ -230,16 +229,17 @@ public class SlidingMenu extends ViewGroup {
                     isOpen = true;
                     //一定不要忘了调用这个方法重绘，否则没有动画效果
                     invalidate();
+                    touchDistance=mScreenWidth;
                 } else {//关闭Menu
                     //同上
                     mScroller.startScroll(getScrollX(), 0, -getScrollX(), 0, 300);
                     isOpen = false;
                     invalidate();
+                    touchDistance=80;
                 }
-
                 break;
         }
-        return true;
+        return super.onTouchEvent(event);
     }
 
     @Override
