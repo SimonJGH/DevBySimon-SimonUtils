@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.app.AlertDialog;
@@ -32,6 +33,7 @@ public class DialogUtils {
     public static class SafeMode {
         private static final DialogUtils mDialog = new DialogUtils();
     }
+
     /**
      * 创建简单版的Dialog
      *
@@ -55,14 +57,15 @@ public class DialogUtils {
         dialog = builder.create();
         dialog.show();
     }
+
     /**
      * 创建Dialog
      *
      * @param activity 上下文必须为Activity
      * @param inflate  dialog的展示布局
      * @param gravity  显示位置
-     * @param scaleX   x轴缩放比例
-     * @param scaleY   y轴缩放比例
+     * @param scaleX   x轴缩放比例  x轴缩放比例  0-默认wrapcontent 1-matchparent
+     * @param scaleY   y轴缩放比例   y轴缩放比例  0-默认wrapcontent 1-matchparent
      */
     private void createDialogCustom(Activity activity, View inflate, int gravity, Double scaleX, Double scaleY) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -87,8 +90,16 @@ public class DialogUtils {
         // 获取真机参数
         Display display = windowManager.getDefaultDisplay();
         // 设置窗口大小
-        lp.width = (int) (display.getWidth() * scaleX);
-        lp.height = (int) (display.getHeight() * scaleY);
+        if (scaleY == 0) {
+            lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+        } else {
+            lp.width = (int) (display.getWidth() * scaleX);
+        }
+        if (scaleY == 0) {
+            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        } else {
+            lp.height = (int) (display.getHeight() * scaleY);
+        }
         // 给窗口设置属性
         window.setAttributes(lp);
     }
