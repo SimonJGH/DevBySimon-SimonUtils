@@ -90,7 +90,7 @@ public class DialogUtils {
         // 获取真机参数
         Display display = windowManager.getDefaultDisplay();
         // 设置窗口大小
-        if (scaleY == 0) {
+        if (scaleX == 0) {
             lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
         } else {
             lp.width = (int) (display.getWidth() * scaleX);

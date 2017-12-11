@@ -8,12 +8,14 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -21,18 +23,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
-
 /**
- * 顺序不可打乱
+ * 顺序不可打乱,先设置item的数量、文字大小、文字颜色，再设置资源list和默认选中项，最后设置背景属性，部分属性可不设置，显示为默认值！
  * <p>
  * wva.setOffset(2)// item偏移量 数量=offset*2+1
+ * .setColumnCount(2)// 列数 默认1
  * .setItemPadding(6)// textview padding
- * .setItems(mList)// list资源
- * .setSeletion(4)// 默认选中itemPos
  * .setFontSize(18)// 文字大小
  * .setSelectItemColor(Color.RED)// 选中文字颜色 默认黑色
  * .setUnSelectItemColor(Color.BLUE)// 未选中文字颜色 默认黑色
+ * .setItems(mList)// list资源
+ * .setSeletion(4)// 默认选中itemPos
  * .setBGColor(Color.GREEN)// 背景线颜色
  * .setBGStyle("full")// 背景样式 full-全屏 part-半屏
  * .setOnWheelViewListener(new WheelView.OnWheelViewListener() {// wheelview数据回调
@@ -44,8 +45,9 @@ import static android.content.ContentValues.TAG;
  * });
  */
 @SuppressWarnings("all")
-public class WheelView extends ScrollView {
+ public class WheelView extends ScrollView {
     private Context context;
+    private int screenWidth;// 屏幕宽度
     private float fontSize = 18;// 文字大小
     private int selcetColor = Color.BLACK; // 默认选中颜色
     private int unSelectColor = Color.BLACK;  // 默认未选中颜色
@@ -57,7 +59,8 @@ public class WheelView extends ScrollView {
     private int offset = OFF_SET_DEFAULT; //（需要在最前面和最后面补全）
     // 每页显示的数量
     private static final int DISPLAY_COUNT_DEFAULT = 1;// 默认展示数量
-    private int displayItemCount = DISPLAY_COUNT_DEFAULT;
+    private int displayItemCount = DISPLAY_COUNT_DEFAULT;// 行数
+    private int displaycolumnCount = DISPLAY_COUNT_DEFAULT;// 列数
     // wheelview回调监听器
     private OnWheelViewListener onWheelViewListener;
     private int scrollDirection = -1; // 滑动方向
@@ -65,7 +68,6 @@ public class WheelView extends ScrollView {
     private static final int SCROLL_DIRECTION_DOWN = 1;// 下滑标识
     // 背景画笔
     private Paint mPaintBG;
-    private Paint mTxtPaint;
     // 背景宽度
     private int viewWidth;
     // 文字padding
@@ -97,8 +99,12 @@ public class WheelView extends ScrollView {
 
     private void init(Context context) {
         this.context = context;
-        mTxtPaint = new Paint();
-        mTxtPaint.setAntiAlias(true);
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        screenWidth = dm.widthPixels;         // 屏幕宽度（像素）
+        int height = dm.heightPixels;       // 屏幕高度（像素）
+
         this.setVerticalScrollBarEnabled(false);
         views = new LinearLayout(context);
         views.setOrientation(LinearLayout.VERTICAL);
@@ -187,9 +193,9 @@ public class WheelView extends ScrollView {
         tv.setPadding(padding, padding, padding, padding);
         if (0 == itemHeight) {
             itemHeight = getViewMeasuredHeight(tv);
-            views.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, itemHeight * displayItemCount));
+            views.setLayoutParams(new LayoutParams(screenWidth / displaycolumnCount, itemHeight * displayItemCount));
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) this.getLayoutParams();
-            this.setLayoutParams(new LinearLayout.LayoutParams(lp.width, itemHeight * displayItemCount));
+            this.setLayoutParams(new LinearLayout.LayoutParams(screenWidth / displaycolumnCount, itemHeight * displayItemCount));
         }
         return tv;
     }
@@ -228,6 +234,17 @@ public class WheelView extends ScrollView {
     public WheelView setOffset(int offset) {
         this.offset = offset;
         displayItemCount = offset * 2 + 1;
+        return this;
+    }
+
+    /**
+     * 设置显示列数
+     *
+     * @param count
+     * @return
+     */
+    public WheelView setColumnCount(int count) {
+        this.displaycolumnCount = count;
         return this;
     }
 
@@ -364,10 +381,10 @@ public class WheelView extends ScrollView {
         super.onScrollChanged(l, t, oldl, oldt);
         refreshItemView(t);
         if (t > oldt) {
-            Log.d(TAG, "向下滚动");
+          //  Log.d("Simon", "向下滚动");
             scrollDirection = SCROLL_DIRECTION_DOWN;
         } else {
-            Log.d(TAG, "向上滚动");
+          //  Log.d("Simon", "向上滚动");
             scrollDirection = SCROLL_DIRECTION_UP;
         }
     }
@@ -428,7 +445,7 @@ public class WheelView extends ScrollView {
     }
 
     public static class OnWheelViewListener {
-        public void onSelected(int selectedIndex, String item) {
+        public void onSelected(int selectedIndex, String selectedMsg) {
         }
     }
 }

@@ -234,6 +234,35 @@ public class BitmapUtils {
     }
 
     /**
+     * Bitmap转成byte[]
+     *
+     * @param bitmap
+     * @return
+     */
+    public static byte[] convertBitmapToByte(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
+        bitmap.compress(CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();// 转为byte数组
+    }
+
+    /**
+     * byte[]转Bitmap
+     *
+     * @param bitmapArray
+     * @return
+     */
+    public static Bitmap convertByteToBitmap(byte[] bitmapArray) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
+                    bitmapArray.length);
+            return bitmap;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * 图片转成string
      *
      * @param bitmap
