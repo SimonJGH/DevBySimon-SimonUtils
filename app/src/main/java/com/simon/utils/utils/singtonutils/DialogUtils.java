@@ -123,6 +123,8 @@ public class DialogUtils {
      * 退出dialog
      */
     private void exitDialog() {
-        dialog.dismiss();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
     }
 }
