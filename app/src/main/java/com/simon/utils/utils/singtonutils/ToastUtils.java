@@ -1,5 +1,8 @@
 package com.simon.utils.utils.singtonutils;
 
+import android.view.Gravity;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.simon.utils.MyApplication;
@@ -32,7 +35,14 @@ public class ToastUtils {
      * @param msg
      */
     public void showShortToast(String msg) {
-        Toast.makeText(MyApplication.getInstance(), msg, Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(MyApplication.getInstance(), msg, Toast.LENGTH_SHORT);
+        LinearLayout layout = (LinearLayout) toast.getView();
+        // layout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        TextView tv = (TextView) toast.getView().findViewById(android.R.id.message);
+        // tv.setTextColor(Color.BLACK);
+        tv.setTextSize(15);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     /**
@@ -41,6 +51,13 @@ public class ToastUtils {
      * @param msg
      */
     public void showLongToast(String msg) {
-        Toast.makeText(MyApplication.getInstance(), msg, Toast.LENGTH_LONG).show();
+        Toast toast = Toast.makeText(MyApplication.getInstance(), msg, Toast.LENGTH_LONG);
+        LinearLayout layout = (LinearLayout) toast.getView();
+        // layout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        TextView tv = (TextView) toast.getView().findViewById(android.R.id.message);
+        // tv.setTextColor(Color.BLACK);
+        tv.setTextSize(15);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }

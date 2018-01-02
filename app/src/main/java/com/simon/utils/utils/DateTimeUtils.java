@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static android.R.attr.format;
+
 /**
  * @author Simon
  * @Description DateTimeUtils的辅助类
@@ -18,6 +19,8 @@ public class DateTimeUtils {
      */
     private final static SimpleDateFormat sdf = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss");
+    private final static SimpleDateFormat sdf_date = new SimpleDateFormat(
+            "yyyy-MM-dd");
 //    private final static SimpleDateFormat sdf = new SimpleDateFormat(
 //            "yyyy年MM月dd日 HH:mm:ss");
 
@@ -35,9 +38,20 @@ public class DateTimeUtils {
         return string;
     }
 
-	
+    /**
+     * 获取系统当前日期{2016-05-11}
+     *
+     * @return string
+     */
+    public static String getCurrentDate() {
+        long currentTimeMillis = System.currentTimeMillis();
+        String string = sdf_date.format(currentTimeMillis);
+        return string;
+    }
+
     /**
      * 将时间戳转换成日期
+     *
      * @param currentTimeMillis
      * @return
      */
@@ -127,4 +141,33 @@ public class DateTimeUtils {
         return remainTime;
     }
 
+    /*
+    *计算time2减去time1的差值 差值只设置 几天 几个小时 或 几分钟
+    * 根据差值返回多长之间前或多长时间后
+    * */
+    public static String getDistanceTime(String startTime, String endTime) {
+        long time1 = Long.parseLong(startTime);
+        long time2 = Long.parseLong(endTime);
+        long day = 0;
+        long hour = 0;
+        long min = 0;
+        long sec = 0;
+        long diff;
+        String flag;
+        if (time1 < time2) {
+            diff = time2 - time1;
+            flag = "前";
+        } else {
+            diff = time1 - time2;
+            flag = "后";
+        }
+        day = diff / (24 * 60 * 60 * 1000);
+        hour = (diff / (60 * 60 * 1000) - day * 24);
+        min = ((diff / (60 * 1000)) - day * 24 * 60 - hour * 60);
+        sec = (diff / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+        if (day != 0) return day + "天" + flag;
+        if (hour != 0) return hour + "小时" + flag;
+        if (min != 0) return min + "分钟" + flag;
+        return "刚刚";
+    }
 }
