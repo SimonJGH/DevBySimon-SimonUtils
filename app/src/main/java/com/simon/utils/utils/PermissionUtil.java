@@ -11,6 +11,12 @@ import android.support.v4.content.ContextCompat;
 
 /**
  * Created by Simon on 2017/6/25.
+ * <p>
+ * PermissionUtil.requestPermission(HomeActivity.this, new String[]{
+ * Manifest.permission.ACCESS_COARSE_LOCATION,
+ * Manifest.permission.CAMERA,
+ * Manifest.permission.WRITE_EXTERNAL_STORAGE,
+ * Manifest.permission.READ_PHONE_STATE});
  */
 
 public class PermissionUtil {
@@ -20,6 +26,7 @@ public class PermissionUtil {
 
     /**
      * 检测权限-适用于单个功能模块
+     *
      * @param context
      * @param permission
      */
@@ -31,6 +38,7 @@ public class PermissionUtil {
 
     /**
      * 请求权限-适用于第一次app启动
+     *
      * @param context
      * @param permissions
      */

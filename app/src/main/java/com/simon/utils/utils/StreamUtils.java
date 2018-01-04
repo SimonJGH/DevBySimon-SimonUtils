@@ -1,5 +1,10 @@
 package com.simon.utils.utils;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,12 +19,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.channels.FileChannel;
 
 /**
  * 作者：${Simon} on 2016/10/29 0029 15:08
  * <p/>
  * 邮箱：2217403339@qq.com
  */
+@SuppressWarnings("all")
 public class StreamUtils {
 
     /**
@@ -224,6 +231,26 @@ public class StreamUtils {
         return is;
     }
 
+    /**
+     * uri转path
+     * @param context
+     * @param contentUri
+     * @return
+     */
+    public static String getRealPathFromUri(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
 
     /**
      * (String) copy file to another flie

@@ -21,7 +21,9 @@
         </activity>
         <activity android:name=".activity.BaseActivity" />
         <activity android:name=".activity.GIFActivity" />
-        <activity android:name=".activity.GestureImageViewActivity"></activity>
+        <activity android:name=".activity.GestureImageViewActivity" />
+        <activity android:name=".activity.ListViewActivity" />
+        <activity android:name=".activity.GridViewActivity"></activity>
     </application>
 
 </manifest>

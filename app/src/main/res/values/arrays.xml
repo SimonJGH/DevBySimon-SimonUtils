@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="left_menu">
-        <item>GIF</item>
-        <item>GESTURE_ImageView</item>
-        <item></item>
-        <item></item>
+        <item>GIF动画演示</item>
+        <item>手势缩放图</item>
+        <item>ListView</item>
+        <item>GridView</item>
         <item></item>
         <item></item>
         <item></item>

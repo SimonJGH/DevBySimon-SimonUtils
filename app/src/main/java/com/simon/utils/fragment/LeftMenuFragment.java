@@ -12,6 +12,8 @@ import com.simon.utils.MainActivity;
 import com.simon.utils.R;
 import com.simon.utils.activity.GIFActivity;
 import com.simon.utils.activity.GestureImageViewActivity;
+import com.simon.utils.activity.GridViewActivity;
+import com.simon.utils.activity.ListViewActivity;
 import com.simon.utils.adapter.LeftMenuAdapter;
 import com.simon.utils.widget.recycler.ListViewDecoration;
 import com.simon.utils.widget.recycler.SDRecyclerView;
@@ -80,6 +82,12 @@ public class LeftMenuFragment extends BaseFragment implements OnItemClickListene
                 break;
             case 1:
                 startActivity(intent.setClass(getContext(), GestureImageViewActivity.class));
+                break;
+            case 2:
+                startActivity(intent.setClass(getContext(), ListViewActivity.class));
+                break;
+            case 3:
+                startActivity(intent.setClass(getContext(), GridViewActivity.class));
                 break;
         }
     }
