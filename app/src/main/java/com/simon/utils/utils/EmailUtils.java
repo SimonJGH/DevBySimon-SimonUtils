@@ -47,16 +47,16 @@ public class EmailUtils {
      * @return
      */
     public boolean sendEmailMessages(String fromEmailAddress, String fromEmailPassword, String toEmailAddress, String Subject, String Content) {// 配置发送及接收邮箱
-        Properties props = new Properties();
-        props.put("mail.smtp.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");//设置要验证
-        props.put("mail.smtp.host", "smtp.exmail.qq.com");//设置host
-        props.put("mail.smtp.port", "465");  //设置端口
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-
-        PassAuthenticator pass = new PassAuthenticator(fromEmailAddress,fromEmailPassword);   //获取帐号密码
-        Session session = Session.getInstance(props, pass); //获取验证会话
         try {
+            Properties props = new Properties();
+            props.put("mail.smtp.protocol", "smtp");
+            props.put("mail.smtp.auth", "true");//设置要验证
+            props.put("mail.smtp.host", "smtp.exmail.qq.com");//设置host
+            props.put("mail.smtp.port", "465");  //设置端口
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+            PassAuthenticator pass = new PassAuthenticator(fromEmailAddress, fromEmailPassword);   //获取帐号密码
+            Session session = Session.getInstance(props, pass); //获取验证会话
             // 始发邮箱
             InternetAddress fromAddress = new InternetAddress(fromEmailAddress, fromEmailAddress);
             // 目标邮箱
@@ -102,7 +102,7 @@ public class EmailUtils {
         props.put("mail.smtp.port", "465");  //设置端口
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-        PassAuthenticator pass = new PassAuthenticator(fromEmailAddress,fromEmailPassword);   //获取帐号密码
+        PassAuthenticator pass = new PassAuthenticator(fromEmailAddress, fromEmailPassword);   //获取帐号密码
         Session session = Session.getInstance(props, pass); //获取验证会话
         try {
             //配置发送及接收邮箱
@@ -120,7 +120,7 @@ public class EmailUtils {
                 FileDataSource fds = new FileDataSource(file); //打开要发送的文件
                 attachPart.setDataHandler(new DataHandler(fds));
                 attachPart.setFileName(MimeUtility.encodeText(file.getName()));//TODO
-                allMultipart.addBodyPart(attachPart);//添加
+                // allMultipart.addBodyPart(attachPart);//添加
             }
             message.setContent(allMultipart); //发邮件时添加附件
 
@@ -150,9 +150,7 @@ public class EmailUtils {
         }
 
         public PasswordAuthentication getPasswordAuthentication() {
-            /**
-             * 添加发送邮箱的账号和密码
-             */
+            // 添加发送邮箱的账号和密码
             return new PasswordAuthentication(username, password);
         }
     }
