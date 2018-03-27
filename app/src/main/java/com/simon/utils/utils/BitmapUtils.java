@@ -3,6 +3,7 @@ package com.simon.utils.utils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class BitmapUtils {
 
     /**
      * uri转path
+     *
      * @param context
      * @param contentUri
      * @return
@@ -56,32 +58,39 @@ public class BitmapUtils {
     }
 
     /**
-     * 保存Bitmap到本地
+     * 保存Bitmap到SD卡
      *
-     * @param bmp
-     * @param fileName
+     * @param bitmap
+     * @param outPath
+     * @param maxSize
      */
-    public static void saveBitmapToSDCard(Bitmap bmp, String SDUrl) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int options = 80;
-        // 80是压缩率，表示压缩80%;
-        // 如果不压缩是100，表示压缩率为0
-        bmp.compress(CompressFormat.JPEG, options, baos);
-        while (baos.toByteArray().length / 1024 > 100) {
-            baos.reset();
-            options -= 10;
-            bmp.compress(CompressFormat.JPEG, options, baos);
-        }
+    public static void compressBitmapToSDCard(Bitmap bitmap, String outPath, int maxSize) {
+        Log.i("Simon", "Bitmap质量压缩开始");
         try {
-            File file = new File(SDUrl);
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(baos.toByteArray());
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            // scale
+            int options = 100;
+            // Store the bitmap into output stream(no compress)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, os);
+            // Compress by loop
+            while (os.toByteArray().length / 1024 > maxSize) {
+                // Clean up os
+                os.reset();
+                // interval 10
+                options -= 10;
+                bitmap.compress(Bitmap.CompressFormat.JPEG, options, os);
+            }
+            // Generate compressed image file
+            FileOutputStream fos = null;
+            fos = new FileOutputStream(outPath);
+            fos.write(os.toByteArray());
             fos.flush();
             fos.close();
-            Log.i("Simon", "BITMAP = " + "ok");
         } catch (Exception e) {
             e.printStackTrace();
+            Log.i("Simon", "Bitmap质量压缩Exception = " + e.getMessage());
         }
+        Log.i("Simon", "Bitmap质量压缩结束");
     }
 
     /**
@@ -208,6 +217,61 @@ public class BitmapUtils {
             return new File(uri.toString().replace("file://", ""));
         }
         return null;
+    }
+
+    /**
+     * 本地图片质量压缩
+     *
+     * @param inPath
+     * @param outPath
+     */
+    public static void compressLocalImage(final String inPath, final String outPath) {
+        Log.i("Simon", "本地图片质量压缩开始");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    FileInputStream fis = new FileInputStream(inPath);
+                    int size = fis.available() / 1024;
+                    int scale = 0;
+                    if (size < 100 && size > 50) {// 图片小于100k 压缩效果为50k以内
+                        scale = 50;
+                    } else if (size < 500) {// 图片小于500k 压缩效果为100k以内
+                        scale = 100;
+                    } else if (size < 2500) {// 图片小于2500k 压缩效果为120k以内
+                        scale = 120;
+                    } else if (size < 5000) {// 图片小于5000k 压缩效果为150k以内
+                        scale = 150;
+                    } else {// 图片大于5000k 压缩效果为200k以内
+                        scale = 200;
+                    }
+                    Bitmap bitmap = BitmapFactory.decodeFile(inPath);
+                    ByteArrayOutputStream os = new ByteArrayOutputStream();
+                    // scale
+                    int options = 100;
+                    // Store the bitmap into output stream(no compress)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, options, os);
+                    // Compress by loop
+                    while (os.toByteArray().length / 1024 > scale) {
+                        // Clean up os
+                        os.reset();
+                        // interval 10
+                        options -= 10;
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, options, os);
+                    }
+                    // Generate compressed image file
+                    FileOutputStream fos = new FileOutputStream(outPath);
+                    fos.write(os.toByteArray());
+                    fos.flush();
+                    fis.close();
+                    fos.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i("Simon", "本地图片质量压缩Exception = " + e.getMessage());
+                }
+            }
+        }).start();
+        Log.i("Simon", "本地图片质量压缩结束");
     }
 
     /**
