@@ -28,7 +28,7 @@ dependencies {
     compile files('libs/gesture-imageview.jar')
     compile files('libs/SimonHttp.jar')
     /* compile 'com.android.support:design:25.3.1'
-            compile 'com.android.support:cardview-v7:25.3.1'*/
+                compile 'com.android.support:cardview-v7:25.3.1'*/
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'org.xutils:xutils:3.5.0'
     compile 'com.android.support:recyclerview-v7:25.3.1'
@@ -38,4 +38,5 @@ dependencies {
     compile files('libs/activation.jar')
     compile files('libs/mail.jar')
     compile files('libs/additionnal.jar')
+    compile files('libs/jxl.jar')
 }

@@ -1,4 +1,4 @@
-package com.simon.uploadavatar;
+package com.simon.utils.utils;
 
 import android.app.Activity;
 import android.content.Context;
